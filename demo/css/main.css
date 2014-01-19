@@ -1,0 +1,31 @@
+body{
+	background-color: white;
+	text-align:center;
+	
+}
+
+.center{
+	text-align:left;
+	margin-left: auto;
+	margin-right: auto;
+	width:575px;
+}
+
+#range{
+	border:1px solid black;
+	height:20px;
+}
+
+
+#slider {
+	width:560px;
+	height:30px;
+	margin-left:9px;
+}
+
+#text{
+	color:#034a92;
+	float:right;
+
+}
+

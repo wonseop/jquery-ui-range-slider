@@ -1,0 +1,49 @@
+@charset "utf-8";
+
+.ui-range-slider {
+	display:block;
+	position:relative;
+}
+
+.ui-range-slider .ui-table {
+	border: none;
+	table-layout: fixed;
+	border-spacing: 0;
+	width: 100%;
+}
+.ui-range-slider .ui-table td,
+.ui-range-slider .ui-table th { 
+	overflow: hidden;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
+	border: none;
+}
+
+.ui-range-slider .ui-grips {
+	height: 0px;
+	position: relative;
+	cursor: e-resize !important;
+}
+
+.ui-range-slider .ui-grips .ui-grip {
+	margin-left: -5px;
+	position: absolute;
+	z-index: 5;
+}
+
+.ui-range-slider .ui-grips .ui-grip-last {
+	position: absolute;
+	width: 0px;
+}
+
+.ui-range-slider .ui-grips .ui-handle {
+	width: 10px;
+	height: 19px;
+	cursor: e-resize;
+	background-image: url('images/slider.png');
+	z-index:8;
+}
+
+.ui-range-slider .ui-drag .ui-handle, .ui-handle:hover{
+	background-position:right;
+}

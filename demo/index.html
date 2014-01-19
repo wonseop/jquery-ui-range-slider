@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>range slider demo</title>  
+<link rel="stylesheet" href="../css/rangeslider.css"> 
+<link rel="stylesheet" href="css/main.css">  
+<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="../src/rangeslider.js"></script>
+<script type="text/javascript">
+	$( function () {
+		//callback function
+		var onSlide = function(e){
+			var columns = $( e.currentTarget ).find( "td" ),
+				ranges = [], total = 0, i, s ="Ranges: ", w;
+
+			for ( i = 0; i < columns.length; i++ ) {
+				w = columns.eq( i ).width() - 10 - ( i === 0 ? 1 : 0 );
+				ranges.push( w );
+				total += w;
+			}		 
+			for ( i = 0; i < columns.length; i++ ) {
+				ranges[ i ] = 100 * ranges[ i ] / total;
+				s += " " + Math.round( ranges[ i ] ) + "%,";
+			}
+			s = s.slice( 0, -1 );
+			$( "#text" ).html( s );
+		}
+
+		$("#range").rangeslider( {
+			onDrag: onSlide
+		} );
+	} );
+</script>
+</head>
+<body>
+	<div class="center">
+		<div id="slider" class="ui-range-slider">
+			<table id="range">
+				<tr>
+					<td style="width:25%; background-color: white;"></td>
+					<td style="width:25%; background-color: yellow;"></td>
+					<td style="width:25%; background-color: orange;"></td>
+					<td style="width:25%; background-color: red;"></td>
+				</tr>
+			</table>
+		</div>
+		
+		<p id="text">Ranges: 25%, 25%, 25%, 25%</p>
+		
+		<br/><br/>
+
+	</div>	
+		
+
+	
+		
+ </body>
+ </html>
