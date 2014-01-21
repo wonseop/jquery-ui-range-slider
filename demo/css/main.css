@@ -11,7 +11,7 @@ body{
 	width:575px;
 }
 
-#range{
+#slider .ui-table{
 	border:1px solid black;
 	height:20px;
 }

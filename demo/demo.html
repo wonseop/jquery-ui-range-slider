@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="css/main.css">  
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script>
-<script src="../src/rangeslider.js"></script>
+<script src="../src/jquery.ui.rangeslider.js"></script>
 <script type="text/javascript">
 	$( function () {
 		//callback function
@@ -27,7 +27,7 @@
 			$( "#text" ).html( s );
 		}
 
-		$("#range").rangeslider( {
+		$("#slider").rangeslider( {
 			onDrag: onSlide
 		} );
 	} );
@@ -35,16 +35,7 @@
 </head>
 <body>
 	<div class="center">
-		<div id="slider" class="ui-range-slider">
-			<table id="range">
-				<tr>
-					<td style="width:25%; background-color: white;"></td>
-					<td style="width:25%; background-color: yellow;"></td>
-					<td style="width:25%; background-color: orange;"></td>
-					<td style="width:25%; background-color: red;"></td>
-				</tr>
-			</table>
-		</div>
+		<div id="slider"></div>
 		
 		<p id="text">Ranges: 25%, 25%, 25%, 25%</p>
 		

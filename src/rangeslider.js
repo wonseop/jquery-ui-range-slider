@@ -12,6 +12,7 @@
 		count = 0,
 		SIGNATURE ="ui-table",
 		isIE = ( navigator.userAgent.toLowerCase().indexOf( "msie" ) !== -1 ),
+		_table,
 
 		/**
 		 * Function to allow column resizing for table objects. It is the starting point to apply the plugin.
@@ -19,18 +20,15 @@
 		 * @param {Object} options	- some customization values
 		 */
 		init = function ( table, options ) {
-			var id, $table = $( table );
+			var $table = $( table );
 
 			if ( options.disable ) {
 				return destroy( $table );
 			}
 
-			id = $table.id = $table.attr( "id" ) || ( SIGNATURE + count++ );
-			if ( !$table.is( "table" ) || tables[ id ] ) {
-				return;
-			}
+			_table = $table;
 
-			$table.addClass( SIGNATURE ).attr( "id", id ).before( "<div class=\"ui-grips\">" );
+			$table.addClass( SIGNATURE ).before( "<div class=\"ui-grips\">" );
 			$table.options = options;
 			$table.grips = [];
 			$table.columns = [];
@@ -38,7 +36,7 @@
 			$table.gripContainer = $table.prev( ".ui-grips" );
 			$table.cs = parseInt( isIE ? table.cellSpacing || table.currentStyle.borderSpacing : $table.css( "border-spacing" ), 10 ) || 2;
 			$table.b  = parseInt( isIE ? table.border || table.currentStyle.borderLeftWidth : $table.css( "border-left-width" ), 10 ) || 1;
-			tables[ id ] = $table;
+			//tables[ id ] = $table;
 			createGrips( $table );
 		},
 
@@ -47,15 +45,11 @@
 		 * @param {jQuery ref} $table - table object
 		 */
 		destroy = function ( $table ) {
-			var id = $table.attr( "id" ),
-				index = $.inArray( id, tables );
-
-			if ( !$table || !$table.is( "table" ) || ( index === -1 ) ) {
+			if ( !$table || !$table.is( "table" ) ) {
 				return;
 			}
 
 			$table.removeClass( SIGNATURE ).gripContainer.remove();
-			tables.slice( index, 1 );
 		},
 
 		/**
@@ -70,12 +64,12 @@
 				th = $table.find( ">tbody>tr:first>th, >tr:first>th, >tbody>tr:first>td, >tr:first>td" );
 			}
 
-			$table.colgroup = $table.find("col");
+			$table.colgroup = $table.find( "col" );
 			$table.ln = th.length;
 			th.each( function ( i ) {
 				column = $( this );
 				grip = $( $table.gripContainer.append( "<div class=\"ui-grip\">" )[0].lastChild );
-				grip.t = $table;
+				grip.table = $table;
 				grip.i = i;
 				grip.column = column;
 				column.w = column.width();
@@ -85,12 +79,11 @@
 
 				if ( i < $table.ln - 1 ) {
 					grip.on( "mousedown", onGripMouseDown )
-						.append( "<div class=\"ui-handle\">" )
-						.append( '<div class="'+ SIGNATURE +'" style="cursor:' + $table.options.hoverCursor + '">');
+						.append( "<div class=\"ui-handle\">" );
 				} else {
 					grip.addClass( "ui-grip-last" ).removeClass( "ui-grip" );
 				}
-				grip.data( SIGNATURE, { i: i, t: $table.attr( "id" )});
+				grip.data( SIGNATURE, { i: i } );
 			});
 			$table.colgroup.removeAttr( "width" );
 			syncGrips( $table );
@@ -151,7 +144,7 @@
 		 */
 		onGripMouseDown = function ( e ) {
 			var data = $( this ).data( SIGNATURE ),
-				$table = tables[ data.t ],
+				$table = _table,
 				grip = $table.grips[ data.i ],
 				i, column;
 
@@ -182,7 +175,7 @@
 				return;
 			}
 
-			var $table = drag.t,
+			var $table = _table,//drag.table,
 				x = e.pageX - drag.pageX + drag.l,
 				mw = $table.options.minWidth,
 				i = drag.i,
@@ -222,8 +215,8 @@
 				return;
 			}
 
-			drag.removeClass( drag.t.options.draggingClass );
-			$table = drag.t;
+			drag.removeClass( _table.options.draggingClass );
+			$table = _table;
 			callback = $table.options.onResize;
 
 			if ( drag.x ) {
@@ -246,8 +239,9 @@
 		onResize = function () {
 			var key, $table, i, minWidth;
 
-			for ( key in tables ) {
-				$table = tables[ key ];
+			//for ( key in tables ) {
+				//$table = tables[ key ];
+				$table = _table;
 				minWidth = 0;
 				$table.removeClass( SIGNATURE );
 
@@ -263,7 +257,7 @@
 					}
 				}
 				syncGrips( $table.addClass( SIGNATURE ) );
-			}
+			//}
 		};
 
 	$( window ).on( "resize." + SIGNATURE, onResize ); 
